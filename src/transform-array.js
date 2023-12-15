@@ -13,10 +13,67 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
-}
+function transform(arr) {
+  if (Array.isArray(arr)) {
+    if (arr.length === 0) {
+      return arr;
+    } else {
+      const commands = arr.filter((item) => item === '--discard-prev' || item === '--discard-next' || item === '--double-prev' ||  item === '--double-next');
+      if (commands.length === 0) {
+        return arr;
+      } else {
+        let copyArr = [...arr];
+        let actions = [];
+
+        if (commands.length > 0) {
+          commands.forEach((item) => {
+            actions.push(item.split('--')[1].split('-'));
+            actions.push(copyArr.indexOf(item));
+            copyArr.splice(copyArr.indexOf(item), 1)
+          });
+        }
+    
+        let items = [...copyArr]
+    
+        for (let i = 0; i < actions.length; i += 2) {
+            let action = actions[i + 1][0];
+            let target = actions[i + 1][1];
+            let item = actions[i + 1];
+      
+            if (target === 'next' && action === 'double') {
+              if (item === copyArr.length) {
+                return copyArr;
+              }
+              copyArr.splice(item, 0, items[item]);
+            }
+      
+            if (target === 'prev' && action === 'double') {
+              if (item === 0) {
+                return copyArr.splice(0, 1);
+              }
+              copyArr.splice(item - 1, 0, items[item - 1]);
+            }
+      
+            if (target === 'next' && action === 'discard') {
+              if (item === copyArr.length) {
+                return copyArr;
+              }
+              copyArr.splice(item, 1);
+            }
+      
+            if (target === 'prev' && action === 'discard') {
+              if (item === 0) {
+                return copyArr;
+              }
+              copyArr.splice(item - 1, 1);
+            }
+          }
+          return copyArr;
+      }
+    }
+    }
+    throw new Error("\'arr\' parameter must be an instance of the Array!");
+  }
 
 module.exports = {
   transform
