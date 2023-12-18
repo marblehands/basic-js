@@ -22,18 +22,33 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  *
  */
-const domain = [
-   'code.yandex.ru',
-    'music.yandex.ru',
-    'yandex.ru'
-   ]
-
-function getDNSStats(domains) {
-  domains.forEach((item) => {
-    let strings = item.split('.')
-    console.log(strings)
-  })
-}
+   function getDNSStats(domains) {
+    let arr = []
+    domains.forEach((item) => {
+      let strings = item.split('.').reverse().map((item) => '.' + item);
+      arr.push(strings);
+    })
+    console.log(arr)
+    let arr2 = []
+    arr.forEach((item) => {
+      item.reduce((acum, value) => {
+        acum += value;
+        arr2.push(acum)
+        return acum
+       }, '');
+    })
+    console.log(arr2)
+    let count = {};
+    arr2.forEach((item) => {
+      if (!count[item]) {
+        count[item] = 1
+      } else {
+        count[item]++
+      }
+    })
+    console.log(count)
+    return count
+  }
 
 module.exports = {
   getDNSStats
