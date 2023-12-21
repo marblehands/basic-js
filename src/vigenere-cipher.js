@@ -20,11 +20,83 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(type) {
+    if(!type || arguments.length === 0) {
+      this.type = false;
+    } else {
+      this.type = true;
+    }
+    this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.module = 26;
   }
-  decrypt() {
+  encrypt(message, key) {
+    if(arguments.length === 0 || arguments.length === 1 || message === undefined) {
+      throw new Error("Incorrect arguments!")
+    }
+    const arr = message.toUpperCase().split('');
+    const arrNum = arr.map((letter) => {
+      if (/\d/.test(letter)) {
+        return String(letter);
+      } else if (!/^[a-zA-Z]$/.test(letter)) {
+       return letter;
+     } else {
+       return this.alphabet.indexOf(letter)
+     }
+   });
+    console.log('arr / это массив с буквами message:', arr) // массив с message
+    console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
+    const keyNum = key.toUpperCase().split('').map((letter) => letter = this.alphabet.indexOf(letter));
+   //  console.log(keyNum) // индексы ключа
+    let count = 0
+    const arr2 = arr.reduce((acum, currentValue, index) => {
+     if(!/^[a-zA-Z]$/.test(currentValue)) {
+       acum.push(currentValue);
+     } else {
+       acum.push(keyNum[count % keyNum.length])
+       count++
+     }
+     return acum
+    }, []);
+    console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
+    //теперь надо склалывать индексы по модулю 26
+ 
+    // использую массив с индексами послания /  не забудь про небуквы
+    const multiply = arrNum.reduce((acum, currentValue, index) => {
+     if (typeof currentValue !== 'number') {
+       acum.push(currentValue);
+     } else {
+       let value = currentValue + arr2[index];
+       if (value >= this.module) {
+         value -= this.module
+       }
+       acum.push(value)
+     }
+     return acum
+    }, [])
+    console.log('multiply / это массив после сложения по модулю. небуквы должны остаться неизменными и тут у нас проблемка', multiply)
+    console.log(typeof multiply[multiply.length - 2])
+    //теперь надо перевести индексы в буквы
+    const arrResult = multiply.map((letter) => {
+
+     if (typeof letter === 'string') {
+       return letter;
+     } else {
+       return this.alphabet[letter];
+     }
+    })
+ 
+    if (this.type === false) {
+     console.log(arrResult.reverse().join(''))
+     return arrResult.reverse().join('')
+    } else {
+     console.log(arrResult.join(''))//ууууууууeah получилось
+     return arrResult.join('')
+    }
+  }
+  decrypt(encryptedMessage, key) {
+    if(arguments.length < 2) {
+      throw new Error("Incorrect arguments!")
+    }
     throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
   }
