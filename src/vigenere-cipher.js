@@ -20,12 +20,8 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  constructor(type) {
-    if(!type || arguments.length === 0) {
-      this.type = false;
-    } else {
-      this.type = true;
-    }
+  constructor(type = true) {
+    this.type = type;
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     this.module = 26;
   }
@@ -43,8 +39,8 @@ class VigenereCipheringMachine {
        return this.alphabet.indexOf(letter)
      }
    });
-    console.log('arr / это массив с буквами message:', arr) // массив с message
-    console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
+    // console.log('arr / это массив с буквами message:', arr) // массив с message
+    // console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
     const keyNum = key.toUpperCase().split('').map((letter) => letter = this.alphabet.indexOf(letter));
    //  console.log(keyNum) // индексы ключа
     let count = 0
@@ -57,7 +53,7 @@ class VigenereCipheringMachine {
      }
      return acum
     }, []);
-    console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
+    // console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
     //теперь надо склалывать индексы по модулю 26
  
     // использую массив с индексами послания /  не забудь про небуквы
@@ -73,8 +69,8 @@ class VigenereCipheringMachine {
      }
      return acum
     }, [])
-    console.log('multiply / это массив после сложения по модулю. небуквы должны остаться неизменными и тут у нас проблемка', multiply)
-    console.log(typeof multiply[multiply.length - 2])
+    // console.log('multiply / это массив после сложения по модулю. небуквы должны остаться неизменными и тут у нас проблемка', multiply)
+    // console.log(typeof multiply[multiply.length - 2])
     //теперь надо перевести индексы в буквы
     const arrResult = multiply.map((letter) => {
 
@@ -85,11 +81,11 @@ class VigenereCipheringMachine {
      }
     })
  
-    if (this.type === false) {
-     console.log(arrResult.reverse().join(''))
-     return arrResult.reverse().join('')
+    if (!this.type) {
+    //  console.log(arrResult.reverse().join(''))
+     return [...arrResult].reverse().join('')
     } else {
-     console.log(arrResult.join(''))//ууууууууeah получилось
+    //  console.log(arrResult.join(''))//ууууууууeah получилось
      return arrResult.join('')
     }
   }
@@ -97,7 +93,6 @@ class VigenereCipheringMachine {
     if(arguments.length === 0 || arguments.length === 1 || message === undefined) {
       throw new Error("Incorrect arguments!")
     }
-
     const arr = message.toUpperCase().split('');
     const arrNum = arr.map((letter) => {
       if (/\d/.test(letter)) {
@@ -108,11 +103,11 @@ class VigenereCipheringMachine {
        return this.alphabet.indexOf(letter)
      }
    });
-    console.log('arr / это массив с буквами message:', arr) // массив с message
-    console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
+    // console.log('arr / это массив с буквами message:', arr) // массив с message
+    // console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
 
     const keyNum = key.toUpperCase().split('').map((letter) => letter = this.alphabet.indexOf(letter));
-     console.log('keyNum / это индексы ключа: ', keyNum) // индексы ключа
+    //  console.log('keyNum / это индексы ключа: ', keyNum) // индексы ключа
 
      let count = 0
     const arr2 = arr.reduce((acum, currentValue, index) => {
@@ -124,7 +119,7 @@ class VigenereCipheringMachine {
      }
      return acum
     }, []);
-    console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
+    // console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
 
     //теперь надо вычитать индексы по модулю 26
  
@@ -141,7 +136,7 @@ class VigenereCipheringMachine {
       }
       return acum
      }, [])
-     console.log('multiply / это массив после сложения по модулю. небуквы должны остаться неизменными и тут у нас проблемка', multiply)
+    //  console.log('multiply / это массив после сложения по модулю. небуквы должны остаться неизменными и тут у нас проблемка', multiply)
 
      //теперь надо перевести индексы в буквы
     const arrResult = multiply.map((letter) => {
@@ -154,10 +149,10 @@ class VigenereCipheringMachine {
      })
   
      if (this.type === false) {
-      console.log(arrResult.reverse().join(''))
-      return arrResult.reverse().join('')
+      // console.log(arrResult.reverse().join(''))
+      return [...arrResult].reverse().join('')
      } else {
-      console.log(arrResult.join(''))//ууууууууeah получилось
+      // console.log(arrResult.join(''))//ууууууууeah получилось
       return arrResult.join('')
      }
   }
