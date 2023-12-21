@@ -40,7 +40,7 @@ class VigenereCipheringMachine {
      }
    });
     // console.log('arr / это массив с буквами message:', arr) // массив с message
-    // console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
+    // console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) 
     const keyNum = key.toUpperCase().split('').map((letter) => letter = this.alphabet.indexOf(letter));
    //  console.log(keyNum) // индексы ключа
     let count = 0
@@ -53,7 +53,7 @@ class VigenereCipheringMachine {
      }
      return acum
     }, []);
-    // console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
+    // console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) 
     //теперь надо склалывать индексы по модулю 26
  
     // использую массив с индексами послания /  не забудь про небуквы
@@ -82,10 +82,8 @@ class VigenereCipheringMachine {
     })
  
     if (!this.type) {
-    //  console.log(arrResult.reverse().join(''))
      return [...arrResult].reverse().join('')
     } else {
-    //  console.log(arrResult.join(''))//ууууууууeah получилось
      return arrResult.join('')
     }
   }
@@ -104,7 +102,7 @@ class VigenereCipheringMachine {
      }
    });
     // console.log('arr / это массив с буквами message:', arr) // массив с message
-    // console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum) // буквы message заменены на индексы. небуквы сохранены
+    // console.log('arrNum / это массив где буквы message заменены на индексы, небуквы должны сохраниться', arrNum)
 
     const keyNum = key.toUpperCase().split('').map((letter) => letter = this.alphabet.indexOf(letter));
     //  console.log('keyNum / это индексы ключа: ', keyNum) // индексы ключа
@@ -119,7 +117,7 @@ class VigenereCipheringMachine {
      }
      return acum
     }, []);
-    // console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2) // индексы ключа подставлены под индексы message/небуквы сохранены
+    // console.log('arr2 / индексы ключа подставлены под индексы message/небуквы сохранены', arr2)
 
     //теперь надо вычитать индексы по модулю 26
  
@@ -148,11 +146,9 @@ class VigenereCipheringMachine {
       }
      })
   
-     if (this.type === false) {
-      // console.log(arrResult.reverse().join(''))
+     if (!this.type) {
       return [...arrResult].reverse().join('')
      } else {
-      // console.log(arrResult.join(''))//ууууууууeah получилось
       return arrResult.join('')
      }
   }
